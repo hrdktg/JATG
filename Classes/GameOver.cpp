@@ -1,13 +1,16 @@
-#include "Splash.h"
-#include "MainMenu.h"
+#include "GameOver.h"
 #include "GameObj.h"
 #include "SimpleAudioEngine.h"
 
 USING_NS_CC;
 
-Scene* Splash::createScene()
+Scene* GameOver::createScene()
 {
-    auto scene = Splash::create();
+    auto scene = Scene::create();
+
+    auto layer = GameOver::create();
+
+    scene->addChild(layer);
     return scene;
 }
 
@@ -19,41 +22,34 @@ static void problemLoading(const char* filename)
 }
 
 // on "init" you need to initialize your instance
-bool Splash::init()
+bool GameOver::init()
 {
-    //////////////////////////////
-    // 1. super init first
     if ( !Scene::init() )
     {
         return false;
     }
-//    this->setColor(Color3B(230,211,169));
-//    this->setOpacity(255);
+
 
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
+    auto gameOverTxt = MenuItemImage::create("gameOverTxt.png","gameOverTxt.png");
+    auto retryBtn = MenuItemImage::create("retryBtn.png","retryBtn.png",CC_CALLBACK_0(GameOver::Retry,this));
+    auto menuBtn = MenuItemImage::create("menuBtn.png","menuBtn.png",CC_CALLBACK_0(GameOver::runMainMenu,this));
 
-    auto pos=Vec2(visibleSize.width/2, visibleSize.height/2);
-    auto pos1=Vec2(pos.x+10, pos.y+10);
-    GameObj logo("logo","logo.png",pos,this);
+    auto menu = Menu::create(gameOverTxt, retryBtn, menuBtn, NULL);
+    menu->alignItemsVerticallyWithPadding(visibleSize.height/4);
+    this->addChild(menu);
 
-    this->scheduleOnce(schedule_selector(Splash::runMainMenu), 2.0f);
     return true;
 }
 
-void Splash::runMainMenu(float dt) {
-    auto MainMenuScene = MainMenu::create();
-
-    Director::getInstance()->replaceScene(TransitionFade::create(1, MainMenuScene, Color3B(206,169,118)));
-}
-
-void Splash::menuCloseCallback(Ref* pSender)
+void GameOver::menuCloseCallback(Ref* pSender)
 {
     //Close the cocos2d-x game scene and quit the application
     Director::getInstance()->end();
 
-    #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     exit(0);
 #endif
 
@@ -62,5 +58,17 @@ void Splash::menuCloseCallback(Ref* pSender)
     //EventCustom customEndEvent("game_scene_close_event");
     //_eventDispatcher->dispatchEvent(&customEndEvent);
 
+
+}
+
+void GameOver::Resume() {
+
+}
+
+void GameOver::Retry() {
+
+}
+
+void GameOver::runMainMenu() {
 
 }

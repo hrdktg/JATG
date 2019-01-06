@@ -1,13 +1,17 @@
-#include "Splash.h"
 #include "MainMenu.h"
 #include "GameObj.h"
 #include "SimpleAudioEngine.h"
+#include "GameScene.h"
 
 USING_NS_CC;
 
-Scene* Splash::createScene()
+Scene* MainMenu::createScene()
 {
-    auto scene = Splash::create();
+    auto scene = Scene::create();
+
+    auto layer = MainMenu::create();
+
+    scene->addChild(layer);
     return scene;
 }
 
@@ -19,41 +23,38 @@ static void problemLoading(const char* filename)
 }
 
 // on "init" you need to initialize your instance
-bool Splash::init()
+bool MainMenu::init()
 {
-    //////////////////////////////
-    // 1. super init first
     if ( !Scene::init() )
     {
         return false;
     }
-//    this->setColor(Color3B(230,211,169));
-//    this->setOpacity(255);
+
 
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-
-    auto pos=Vec2(visibleSize.width/2, visibleSize.height/2);
+    auto pos=Vec2(visibleSize.width/2, visibleSize.height/4);
     auto pos1=Vec2(pos.x+10, pos.y+10);
-    GameObj logo("logo","logo.png",pos,this);
 
-    this->scheduleOnce(schedule_selector(Splash::runMainMenu), 2.0f);
+    auto gTitle = MenuItemImage::create("playBtn.png","playBtn.png");
+
+    auto playBtn = MenuItemImage::create("playBtn.png","playBtn.png",CC_CALLBACK_0(MainMenu::runGameScene, this));
+    auto optBtn = MenuItemImage::create("optBtn.png","optBtn.png",CC_CALLBACK_0(MainMenu::runOptScene, this));
+
+    auto menu = Menu::create(gTitle, playBtn, optBtn, NULL);
+    menu->alignItemsVerticallyWithPadding(visibleSize.height / 4);
+    this->addChild(menu);
+
     return true;
 }
 
-void Splash::runMainMenu(float dt) {
-    auto MainMenuScene = MainMenu::create();
-
-    Director::getInstance()->replaceScene(TransitionFade::create(1, MainMenuScene, Color3B(206,169,118)));
-}
-
-void Splash::menuCloseCallback(Ref* pSender)
+void MainMenu::menuCloseCallback(Ref* pSender)
 {
     //Close the cocos2d-x game scene and quit the application
     Director::getInstance()->end();
 
-    #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     exit(0);
 #endif
 
@@ -63,4 +64,13 @@ void Splash::menuCloseCallback(Ref* pSender)
     //_eventDispatcher->dispatchEvent(&customEndEvent);
 
 
+}
+
+void MainMenu::runOptScene() {
+
+}
+
+void MainMenu::runGameScene() {
+    auto scene = GameScene::create();
+    Director::getInstance()->replaceScene(scene);
 }

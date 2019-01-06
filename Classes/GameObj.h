@@ -23,7 +23,7 @@ public:
         nObj = 0;
     }
 
-    GameObj(std::string name, std::string loc, cocos2d::Vec2 pos, Splash *s) {
+    GameObj(std::string name, std::string loc, cocos2d::Vec2 pos, cocos2d::Scene *s) {
         this->name = name;
 
         img = cocos2d::Sprite::create(loc);

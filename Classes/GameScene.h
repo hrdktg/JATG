@@ -1,22 +1,23 @@
-#ifndef __SPLASH_SCENE_H__
-#define __SPLASH_SCENE_H__
+#ifndef __GAMESCENE_H__
+#define __GAMESCENE_H__
 
 #include "cocos2d.h"
 
-class Splash : public cocos2d::Scene
+class GameScene : public cocos2d::Scene
 {
 public:
     static cocos2d::Scene* createScene();
 
     virtual bool init();
-    
+
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
-    
-    // implement the "static create()" method manually
-    CREATE_FUNC(Splash);
 
-    void runMainMenu(float dt);
+    // implement the "static create()" method manually
+    CREATE_FUNC(GameScene);
+
+    void runPauseScene();
+
 };
 
-#endif // __SPLASH_SCENE_H__
+#endif // __GAMESCENE_H__
