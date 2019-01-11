@@ -33,19 +33,23 @@ bool Splash::init()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-
     auto pos=Vec2(visibleSize.width/2, visibleSize.height/2);
     auto pos1=Vec2(pos.x+10, pos.y+10);
-    GameObj logo("logo","logo.png",pos,this);
+    GameObj splash_scr("splash_scr","splash_scr.png",pos,this);
 
+    //std::string str1 = std::to_string(frameSize.height);
+    //std::string str2 = std::to_string(frameSize.width);
+    //auto myLabel = Label::createWithSystemFont(str1+","+str2, "Arial", 32);
+    //myLabel->setColor(Color3B(255,255,0));
+    //myLabel->setPosition(pos);
+    //this->addChild(myLabel);
     this->scheduleOnce(schedule_selector(Splash::runMainMenu), 2.0f);
     return true;
 }
 
 void Splash::runMainMenu(float dt) {
     auto MainMenuScene = MainMenu::create();
-
-    Director::getInstance()->replaceScene(TransitionFade::create(1, MainMenuScene, Color3B(206,169,118)));
+    Director::getInstance()->replaceScene(TransitionFade::create(1, MainMenuScene, Color3B(48,56,44)));
 }
 
 void Splash::menuCloseCallback(Ref* pSender)

@@ -37,10 +37,9 @@ bool MainMenu::init()
     auto pos=Vec2(visibleSize.width/2, visibleSize.height/4);
     auto pos1=Vec2(pos.x+10, pos.y+10);
 
-    auto gTitle = MenuItemImage::create("playBtn.png","playBtn.png");
-
-    auto playBtn = MenuItemImage::create("playBtn.png","playBtn.png",CC_CALLBACK_0(MainMenu::runGameScene, this));
-    auto optBtn = MenuItemImage::create("optBtn.png","optBtn.png",CC_CALLBACK_0(MainMenu::runOptScene, this));
+    auto gTitle = MenuItemImage::create("gtitle.png","gtitle.png");
+    auto playBtn = MenuItemImage::create("btn_bg.png","btn_bg.png",CC_CALLBACK_0(MainMenu::runGameScene, this));
+    auto optBtn = MenuItemImage::create("btn_bg.png","btn_bg.png",CC_CALLBACK_0(MainMenu::runOptScene, this));
 
     auto menu = Menu::create(gTitle, playBtn, optBtn, NULL);
     menu->alignItemsVerticallyWithPadding(visibleSize.height / 4);
