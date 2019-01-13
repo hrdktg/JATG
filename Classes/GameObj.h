@@ -4,68 +4,49 @@
 #include <string>
 #include <iostream>
 #include <2d/CCSprite.h>
+#include <2d/CCSpriteFrameCache.h>
 
 class GameObj {
 private:
-    std::string name;
-    bool isContainer;
-    int nObj;
-    int x,y,width,height;
-    std::map<std::string,GameObj> objArr;
 
     cocos2d::Sprite* img;
+    cocos2d::SpriteFrameCache *spritecache = cocos2d::SpriteFrameCache::getInstance();
+
 
 public:
     GameObj() {
-        name = "";
-        isContainer = false;
-        x = y = width = height = 0;
-        nObj = 0;
+
     }
 
-    GameObj(std::string name, std::string loc, cocos2d::Vec2 pos, cocos2d::Scene *s) {
-        this->name = name;
+    GameObj(std::string sname, cocos2d::Vec2 pos, cocos2d::Node *s) {
 
-        img = cocos2d::Sprite::create(loc);
+        img = cocos2d::Sprite::create(sname);
+        img->setAnchorPoint(cocos2d::Vec2(0,0));
         img->setPosition(pos);
 
         s->addChild(img);
     }
 
-    virtual int Size() {
-        return nObj;
-    }
 
-    virtual void setName(std::string n) {
-        name = n;
-    }
-
-    //n is the number of objects contained.
-    virtual void makeContainer(int n) {
-        isContainer = true;
-    }
-
-    virtual void setDim(int a,int b,int w,int h) {
-        x = a;
-        y = b;
-        width = w;
-        height = h;
-    }
-
-    virtual void addObj(std::string objName, GameObj tmp) {
-        objArr[objName] = tmp;
-        nObj++;
-    }
-
-    //
-    virtual void loadSprite(std::string sprite_loc, cocos2d::Vec2 pos) {
-        img = cocos2d::Sprite::create(sprite_loc);
-
-        img->setPosition(pos);
-    }
-
-    virtual cocos2d::Node * getSprite() {
+    virtual cocos2d::Node *getSprite() {
         return img;
+    }
+
+    //Supports at most 100 frames.
+    virtual cocos2d::Vector<cocos2d::SpriteFrame*> getAnimation(const char *format, int count) {
+        auto spritecache = cocos2d::SpriteFrameCache::getInstance();
+        cocos2d::Vector<cocos2d::SpriteFrame*> animFrames;
+        char str[100];
+
+        for(int i=1;i<=count;i++) {
+            sprintf(str, format, i);
+            animFrames.pushBack(spritecache->getSpriteFrameByName(str));
+        }
+        return animFrames;
+    }
+
+    virtual cocos2d::SpriteFrameCache* getSpritecache() {
+        return spritecache;
     }
 };
 

@@ -2,6 +2,7 @@
 #include "MainMenu.h"
 #include "GameObj.h"
 #include "SimpleAudioEngine.h"
+#include "GameScene.h"
 
 USING_NS_CC;
 
@@ -35,7 +36,7 @@ bool Splash::init()
 
     auto pos=Vec2(visibleSize.width/2, visibleSize.height/2);
     auto pos1=Vec2(pos.x+10, pos.y+10);
-    GameObj splash_scr("splash_scr","splash_scr.png",pos,this);
+    GameObj splash_scr("splash_scr.png",Vec2(0,0),this);
 
     //std::string str1 = std::to_string(frameSize.height);
     //std::string str2 = std::to_string(frameSize.width);
@@ -48,7 +49,7 @@ bool Splash::init()
 }
 
 void Splash::runMainMenu(float dt) {
-    auto MainMenuScene = MainMenu::create();
+    auto MainMenuScene = GameScene::create();
     Director::getInstance()->replaceScene(TransitionFade::create(1, MainMenuScene, Color3B(48,56,44)));
 }
 

@@ -17,7 +17,12 @@ LOCAL_SRC_FILES := $(LOCAL_PATH)/hellocpp/main.cpp \
                    $(LOCAL_PATH)/../../../Classes/MainMenu.cpp \
                    $(LOCAL_PATH)/../../../Classes/GameScene.cpp \
                    $(LOCAL_PATH)/../../../Classes/PauseScene.cpp \
-                   $(LOCAL_PATH)/../../../Classes/GameOver.cpp
+                   $(LOCAL_PATH)/../../../Classes/GameOver.cpp \
+                   $(LOCAL_PATH)/../../../Classes/Enemy.cpp \
+                   $(LOCAL_PATH)/../../../Classes/Player.cpp \
+                   $(LOCAL_PATH)/../../../Classes/GamePad.cpp \
+                   $(LOCAL_PATH)/../../../Classes/ScoreBox.cpp \
+                   $(LOCAL_PATH)/../../../Classes/Background.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
 
