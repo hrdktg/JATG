@@ -39,11 +39,15 @@ bool GameScene::init()
 
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile("jatg.plist");
 
-    Player player("player.png", Vec2(65,350), this);
-    Enemy enemy("enemy_anim%d.png", 7, Vec2(1610,350), this);
+    auto i1 = Sprite::createWithSpriteFrameName("player.png");
+    i1->setAnchorPoint(Vec2(0,0));
+    i1->setPosition(Vec2(0,0));
 
     Background bg_main("bg_main.png", Vec2(0,0), this);
     ScoreBox score_box("score_box.png", Vec2(1280,860), this);
+
+    Player player1("player.png", Vec2(65,350), this);
+    Enemy enemy1("enemy_anim%d.png", 7, Vec2(1610,350), this);
 
     GamePad pad("bulletp1.png", "bulletp2.png", "bulletp3.png", this);
 
@@ -66,8 +70,8 @@ bool GameScene::init()
     GameObj score_box("score_box","score_box.png",Vec2(1280,860),this);
     //enemy : 1670, 350
 
-    auto frames = getAnimation("enemy_anim%d.png",7);
-    auto enemy = Sprite::createWithSpriteFrame(frames.front());
+    auto frames = getAnimation("enemy_anim%d.png",7); // SpriteFrame*
+    auto enemy = Sprite::createWithSpriteFrame(frames.front()); //sprite
     enemy->setAnchorPoint(Vec2(0,0));
     enemy->setPosition(Vec2(1610,350));
     this->addChild(enemy);

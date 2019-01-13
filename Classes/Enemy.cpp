@@ -12,7 +12,7 @@ Enemy::Enemy(const char *format, int frames, cocos2d::Vec2 pos, cocos2d::Node *s
 
 
     for(int x=0;x<5;x++) {
-        hp_enemy.push_back(cocos2d::Sprite::createWithSpriteFrame(getSpritecache()->getSpriteFrameByName("heart_enemy.png")));
+        hp_enemy.push_back(cocos2d::Sprite::createWithSpriteFrameName("heart_enemy.png"));
         hp_enemy[x]->setPosition(cocos2d::Vec2(1610+x*60,760));
         s->addChild(hp_enemy[x]);
     }

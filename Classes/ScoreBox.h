@@ -11,7 +11,7 @@ private:
     cocos2d::Sprite *img;
 public:
     ScoreBox();
-    PlayScoreBox(std::string
+    ScoreBox(std::string sname, cocos2d::Vec2 pos, cocos2d::Node *s);
 };
 
 #endif //__SCOREBOX_H__

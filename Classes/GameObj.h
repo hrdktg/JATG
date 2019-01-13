@@ -48,6 +48,10 @@ public:
     virtual cocos2d::SpriteFrameCache* getSpritecache() {
         return spritecache;
     }
+
+    virtual cocos2d::Sprite* getFromSheet(std::string sname) {
+        return cocos2d::Sprite::createWithSpriteFrame(spritecache->getSpriteFrameByName(sname));
+    }
 };
 
 

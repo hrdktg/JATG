@@ -12,8 +12,7 @@ private:
     cocos2d::Sprite *img;
     std::vector<cocos2d::Sprite* >hp_player;
 public:
-    Player();
     Player(std::string sname, cocos2d::Vec2 pos, cocos2d::Node *s);
 };
 
-#endif //__ENEMY_H__
+#endif //__PLAYER_H__
