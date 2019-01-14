@@ -27,7 +27,8 @@ public:
     cocos2d::Vector<cocos2d::SpriteFrame*> getAnimation(const char *format, int count);
     //virtual void update(float dt);
 
-    void shootBullet(int bullet_t);
+    bool onContactBegin(cocos2d::PhysicsContact &cont);
+    
 };
 
 #endif // __GAMESCENE_H__

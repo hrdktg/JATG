@@ -10,9 +10,14 @@
 class Player : public GameObj {
 private:
     cocos2d::Sprite *img;
-    std::vector<cocos2d::Sprite* >hp_player;
+    std::vector<cocos2d::Sprite* >hp_player;    //Store the hearts sprite depicting the current hp of player.
+    std::vector<cocos2d::Sprite* >bullets;      //Store the location of bullets currently on the screen.
+
+
 public:
     Player(std::string sname, cocos2d::Vec2 pos, cocos2d::Node *s);
+
+   // static void shootBullet(std::string sname, cocos2d::Node *s);
 };
 
 #endif //__PLAYER_H__

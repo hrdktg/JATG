@@ -36,6 +36,7 @@ bool GameScene::init()
     {
         return false;
     }
+    Scene::initWithPhysics();
 
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile("jatg.plist");
 
@@ -57,6 +58,11 @@ bool GameScene::init()
     auto menu = Menu::create(pauseBtn, NULL);
     menu->setPosition(Vec2(38,900));
     this->addChild(menu);
+
+    auto contactListener = cocos2d::EventListenerPhysicsContact::create();
+    contactListener->onContactBegin = CC_CALLBACK_1(GameScene::onContactBegin, this);
+
+    this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(contactListener, this);
 
 
     /*auto spritecache = SpriteFrameCache::getInstance();
@@ -150,11 +156,14 @@ void GameScene::update(float dt) {
 }
 */
 
-void GameScene::shootBullet(int bullet_t) {
-    auto spritecache = SpriteFrameCache::getInstance();
-    if(bullet_t==1) {
-        auto bullet = Sprite::createWithSpriteFrame(spritecache->getSpriteFrameByName("bulletp1.png"));
-        bullet->setPosition(Vec2(440,389));
-        this->addChild(bullet);
+bool GameScene::onContactBegin(cocos2d::PhysicsContact &cont) {
+    CCLOG("Collision");
+
+    auto nodeA = cont.getShapeA()->getBody()->getContactTestBitmask();
+    auto nodeB = cont.getShapeA()->getBody()->getContactTestBitmask();
+
+    if(nodeA & nodeB == 10) {
+        CCLOG("PEWPEW");
+        cont.getShapeA()->getBody()->getNode()->removeFromParentAndCleanup(true);
     }
 }
