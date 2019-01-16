@@ -18,6 +18,13 @@ public:
 
     void spawnEnemy(cocos2d::Node *s);
 
+    inline int getBit(int num,int k) {
+        return (num>>(k-1)) & 1;
+    }
+    inline void setBit(int &num, int k) {
+        num |=(1<<(k-1));
+    }
+
 };
 
 #endif //__ENEMY_H__

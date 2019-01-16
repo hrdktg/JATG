@@ -53,9 +53,6 @@ public:
         return cocos2d::Sprite::createWithSpriteFrame(spritecache->getSpriteFrameByName(sname));
     }
 
-    virtual void setBit(int &num, int k) {
-        num |=1<<k-1;
-    }
 };
 
 

@@ -15,6 +15,13 @@ public:
     GamePad(std::string btn1, std::string btn2, std::string btn3, cocos2d::Node *s);
 
     void shootBullet(std::string sname,int bmask, cocos2d::Node *s);
+
+    inline int getBit(int num,int k) {
+        return (num>>(k-1)) & 1;
+    }
+    inline void setBit(int &num, int k) {
+        num |=(1<<(k-1));
+    }
 };
 
 #endif //__GAMEPAD_H__

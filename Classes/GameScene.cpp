@@ -37,8 +37,8 @@ bool GameScene::init()
     {
         return false;
     }
-    Scene::initWithPhysics();
 
+    Scene::initWithPhysics();
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile("jatg.plist");
 
     auto i1 = Sprite::createWithSpriteFrameName("player.png");
@@ -58,9 +58,12 @@ bool GameScene::init()
     hud->initFullHpBar();
 
     auto pauseBtn = MenuItemImage::create("pause_btn.png","pause_btn.png",CC_CALLBACK_0(GameScene::runPauseScene, this));
+    auto resumeBtn = MenuItemImage::create("pause_btn.png","pause_btn.png",CC_CALLBACK_0(GameScene::resumeScene, this));
     pauseBtn->setAnchorPoint(Vec2(0,0));
+    resumeBtn->setAnchorPoint(Vec2(0,0));
+    resumeBtn->setPosition(Vec2(100,100));
 
-    auto menu = Menu::create(pauseBtn, NULL);
+    auto menu = Menu::create(pauseBtn, resumeBtn, NULL);
     menu->setPosition(Vec2(38,900));
     this->addChild(menu);
 
@@ -76,61 +79,8 @@ bool GameScene::init()
     label->setPosition(Vec2(visibleSize.width/2, visibleSize.height/2));
     this->addChild(label);
 
-    this->schedule(schedule_selector(GameScene::runSpawnEnemy),2.0f);
-    /*auto spritecache = SpriteFrameCache::getInstance();
 
-    auto visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
-
-    GameObj bg_main("bg_main","bg_main.png",Vec2(0,0),this);
-    GameObj player("player","player.png",Vec2(65,350),this);
-    //GameObj pauseBtn("pauseBtn","pause_btn.png",Vec2(38,900),this);
-    GameObj score_box("score_box","score_box.png",Vec2(1280,860),this);
-    //enemy : 1670, 350
-
-    auto frames = getAnimation("enemy_anim%d.png",7); // SpriteFrame*
-    auto enemy = Sprite::createWithSpriteFrame(frames.front()); //sprite
-    enemy->setAnchorPoint(Vec2(0,0));
-    enemy->setPosition(Vec2(1610,350));
-    this->addChild(enemy);
-
-    auto enemy_anim = Animation::createWithSpriteFrames(frames, 1.0f/7);
-    enemy->runAction(RepeatForever::create(Animate::create(enemy_anim)));
-    //this->scheduleUpdate();
-
-    std::vector<cocos2d::Sprite* >hp_player;
-    for(int x=0;x<5;x++) {
-        hp_player.push_back(Sprite::createWithSpriteFrame(spritecache->getSpriteFrameByName("heart_player.png")));
-        hp_player[x]->setPosition(Vec2(90+x*60,507));
-        this->addChild(hp_player[x]);
-    }
-
-    std::vector<cocos2d::Sprite* >hp_enemy;
-    for(int x=0;x<5;x++) {
-        hp_enemy.push_back(Sprite::createWithSpriteFrame(spritecache->getSpriteFrameByName("heart_enemy.png")));
-        hp_enemy[x]->setPosition(Vec2(1610+x*60,760));
-        this->addChild(hp_enemy[x]);
-    }
-
-    auto btn_t = ui::Button::create("bulletp1.png","bulletp1.png");
-    auto btn_s = ui::Button::create("bulletp2.png","bulletp2.png");
-    auto btn_c = ui::Button::create("bulletp3.png","bulletp3.png");
-
-    btn_c->setPosition(Vec2(72,128));
-    btn_s->setPosition(Vec2(245,74));
-    btn_t->setPosition(Vec2(244,227));
-
-    this->addChild(btn_c);
-    this->addChild(btn_s);
-    this->addChild(btn_t);
-
-    btn_c->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type) {
-        shootBullet(1);
-    });
-
-    //auto pauseBtn_pos = Vec2();
-
-*/
+    this->schedule(schedule_selector(GameScene::runSpawnEnemy), 2.0f);
 
     return true;
 }
@@ -153,10 +103,16 @@ void GameScene::menuCloseCallback(Ref* pSender)
 }
 
 void GameScene::runPauseScene() {
-    auto scene = PauseScene::create();
-    Director::getInstance()->replaceScene(scene);
+    //auto scene = PauseScene::create();
+    //Director::getInstance()->replaceScene(scene);
+    //this->pause();
+    Scene::getScene()->pause();
 }
 
+void GameScene::resumeScene() {
+    //this->resume();
+    Scene::getScene()->resume();
+}
 /*
 void GameScene::update(float dt) {
     Vec2 pos = enemy.getObj()->getPosition();
@@ -168,128 +124,60 @@ void GameScene::update(float dt) {
 }
 */
 
-inline bool GameScene::getkbit(int num,int k) {
-    return (num>>(k-1))&1;
-}
-
 bool GameScene::onContactBegin(cocos2d::PhysicsContact &cont) {
     CCLOG("Collision");
 
-    int nodeA = cont.getShapeA()->getBody()->getContactTestBitmask();
-    int nodeB = cont.getShapeB()->getBody()->getContactTestBitmask();
+    int A = cont.getShapeA()->getBody()->getContactTestBitmask();
+    int B = cont.getShapeB()->getBody()->getContactTestBitmask();
 
-    auto na = cont.getShapeA()->getBody()->getNode();
-    auto nb = cont.getShapeB()->getBody()->getNode();
+    int powPow = getBit(A,2) & getBit(B,2);
+    int sameObj = (int)(getBit(A,1)==getBit(B,1));
+    int samePow = (A>>2) & (B>>2);
 
-    auto actionRemove = RemoveSelf::create();
-    /*
-     * if set / not set
-     * bit 1 = power
-     * bit 2 = pow 1
-     * bit 3 = pow 2
-     * bit 4 = pow 3
-     * bit 5 = player or enemy
-     *
-     * 5 4 3 2 1
-     */
-    /*  Check If power strikes power and powers of diff obj (a1&b1) && !(a5&b5)
-     *           power strikes player or enemy
-     *           power strikes power of same player
-     *           power strikes same player or same enemy
-     */
+    auto nodeA = cont.getShapeA()->getBody()->getNode();
+    auto nodeB = cont.getShapeB()->getBody()->getNode();
 
-    bool an[6];
-    bool bn[6];
+    label->setString(std::to_string(A)+","+std::to_string(B));
+    if(!sameObj) {
+        auto actionRemove = RemoveSelf::create();
 
-    for(int x=1;x<=5;x++) an[x]=getkbit(nodeA, x);
-    for(int x=1;x<=5;x++) bn[x]=getkbit(nodeA, x);
-
-    bool samePow=false;
-    if((an[2]&bn[2]) || (an[3]&bn[3]) || (an[4]&bn[4])) samePow=true;
-
-    //Power Strikes Power
-    if(an[1]&bn[1]) {
-        //If Powers of different Player
-        if(!(an[5]&bn[5])) {
-            na->runAction(Sequence::create(actionRemove, nullptr));
-            nb->runAction(Sequence::create(actionRemove, nullptr));
-            //If same type of power
+        if(powPow) {
             if(samePow) {
-                Hud::getInstance()->reduceHp(1);
-            } else {
+                nodeA->runAction(Sequence::create(actionRemove, nullptr));
+                nodeB->runAction(Sequence::create(actionRemove, nullptr));
+
                 Hud::getInstance()->reduceHp(0);
             }
-        }
-    }
-
-    /*
-    //Power strikes Obj
-    else {
-        //Power strikes different obj then its parent
-        if(!(an[5]&bn[5])) {
-            //Remove Power from scene
-            if(an[1]) {
-                na->runAction(Sequence::create(actionRemove, nullptr));
-                //Power strikes player
-                if(bn[5]) {
-                    Hud::getInstance()->reduceHp(0);
-                }
-                else {
-                    //Power strikes enemy
-                }
-            }
             else {
-                nb->runAction(Sequence::create(actionRemove, nullptr));
-                if(an[5]) {
-                    Hud::getInstance()->reduceHp(0);
-                }
-                else {
-                    //Power strikes enemy
-                }
+                nodeA->runAction(Sequence::create(actionRemove, nullptr));
+                nodeB->runAction(Sequence::create(actionRemove, nullptr));
+
+                Hud::getInstance()->reduceHp(1);
+            }
+        } else {
+            if(A==1) {
+                //Power strikes Player
+                nodeB->runAction(Sequence::create(actionRemove, nullptr));
+                Hud::getInstance()->reduceHp(1);
+            }
+            else if(A==32) {
+                CCLOG("STRIKING ENEMY WITH POWER");
+                //Power Strikes Enemy
+                nodeB->runAction(Sequence::create(actionRemove, nullptr));
+            }
+            else if(B==1) {
+                //Power strikes Player
+                Hud::getInstance()->reduceHp(1);
+                nodeA->runAction(Sequence::create(actionRemove, nullptr));
+            }
+            else if(B==32) {
+                CCLOG("STRIKING ENEMY WITH POWER");
+                //Power Strikes Enemy
+                nodeA->runAction(Sequence::create(actionRemove, nullptr));
             }
         }
     }
-     */
-/*
-    cocos2d::log("%d %d collides", nodeA, nodeB);
-    //label->setString(std::to_string(nodeA)+" "+std::to_string(nodeB));
 
-    if(nodeA == nodeB && na!=nb && (nodeA!=1 && nodeA!=2)) {
-        //Both are powers A player and B enemy
-        CCLOG("Destroy them Decrease HP of enemy");
-        label->setString("Destroy them Decrease HP of enemy");
-
-        Hud::getInstance()->reduceHp(1);
-        na->runAction(Sequence::create(actionRemove, nullptr));
-        nb->runAction(Sequence::create(actionRemove, nullptr));
-    }
-    else if(nodeA>=4 && nodeB>=4) {
-        //Both are diff powers
-        //Reduce Hp of player
-        Hud::getInstance()->reduceHp(0);
-
-        na->runAction(Sequence::create(actionRemove, nullptr));
-        nb->runAction(Sequence::create(actionRemove, nullptr));
-    }
-    else if((nodeB>=4) && (nodeB<=8)) {
-        if(nodeA==1) {
-            //Power strike player
-            //Pow is nodeB and Player is nodeA
-            //Reduce Hp of player
-           // Hud::getInstance()->reduceHp(0);
-
-            //nb->runAction(Sequence::create(actionRemove, nullptr));
-            label->setString("Destroy them Decrease HP of player");
-        }
-        else if(nodeA==2) {
-            //Power strike Enemy
-            //Pow is nodeB and Player is nodeA
-            //Enemy Shield Activates
-            //nb->runAction(Sequence::create(actionRemove, nullptr));
-            label->setString("Destroy them head on");
-        }
-    }
-*/
     return true;
 }
 
@@ -300,15 +188,14 @@ void GameScene::runSpawnEnemy(float dt) {
 
     int type = random(1,3);
 
-    auto physicsBody = cocos2d::PhysicsBody::createBox(cocos2d::Size(65.0f,81.0f), cocos2d::PhysicsMaterial(1.0f, 1.0f, 1.0f));
+    auto physicsBody = cocos2d::PhysicsBody::createBox(cocos2d::Size(100.0f,100.0f), cocos2d::PhysicsMaterial(1.0f, 1.0f, 1.0f));
     physicsBody->setDynamic(false);
     //1,2,3
     int bmask = 0;
-    setBit(bmask, 1);
+    setBit(bmask, 2);
+    setBit(bmask, type+2); //set 3, 4 or 5 bit for respective Power
 
-    setBit(bmask, type+1);
-
-    physicsBody->setContactTestBitmask(bmask); //4,6,8
+    physicsBody->setContactTestBitmask(bmask);
     physicsBody->setTag(1);
 
     std::string sname = "bullete" + std::to_string(type) + ".png";
@@ -320,3 +207,12 @@ void GameScene::runSpawnEnemy(float dt) {
     img1->addComponent(physicsBody);
     this->addChild(img1);
 }
+
+/*
+   * Bit i is set to 1 when
+   * Bit 1 = objType (Player=1, Enemy=0)
+   * Bit 2 = isPower
+   * Bit 3 = Power A
+   * Bit 4 = Power B
+   * Bit 5 = Power C
+*/

@@ -34,10 +34,14 @@ public:
 
     bool onContactBegin(cocos2d::PhysicsContact &cont);
 
-    inline bool getkbit(int num,int k);
-    inline void setBit(int &num, int k) {
-        num |=1<<k-1;
+    inline int getBit(int num,int k) {
+        return (num>>(k-1)) & 1;
     }
+    inline void setBit(int &num, int k) {
+        num |=(1<<(k-1));
+    }
+
+    void resumeScene();
 };
 
 

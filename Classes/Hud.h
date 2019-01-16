@@ -14,7 +14,7 @@ private:
     static Hud *hud_instance;
     cocos2d::Node* sc;
 
-    static int hp[2];
+    static int hp[2]; //Player is 1 and Enemy is 0
 
     Hud() {};
 
@@ -23,6 +23,8 @@ public:
     void initFullHpBar();
     void setSceneRef(cocos2d::Node *s);
     void reduceHp(bool obj);
+    void showPauseMenu(cocos2d::Node *s);
+
 };
 
 #endif //__HUD_H__
