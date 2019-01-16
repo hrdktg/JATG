@@ -22,7 +22,8 @@ LOCAL_SRC_FILES := $(LOCAL_PATH)/hellocpp/main.cpp \
                    $(LOCAL_PATH)/../../../Classes/Player.cpp \
                    $(LOCAL_PATH)/../../../Classes/GamePad.cpp \
                    $(LOCAL_PATH)/../../../Classes/ScoreBox.cpp \
-                   $(LOCAL_PATH)/../../../Classes/Background.cpp
+                   $(LOCAL_PATH)/../../../Classes/Background.cpp \
+                   $(LOCAL_PATH)/../../../Classes/Hud.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
 

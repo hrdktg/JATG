@@ -25,6 +25,7 @@
 #include "AppDelegate.h"
 #include "Splash.h"
 
+
 // #define USE_AUDIO_ENGINE 1
 // #define USE_SIMPLE_AUDIO_ENGINE 1
 
@@ -79,6 +80,7 @@ static int register_all_packages()
 
 bool AppDelegate::applicationDidFinishLaunching() {
     // initialize director
+
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
     if(!glview) {
@@ -118,6 +120,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     }
 
     register_all_packages();
+
 
     // create a scene. it's an autorelease object
     auto scene = Splash::createScene();

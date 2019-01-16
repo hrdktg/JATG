@@ -14,7 +14,7 @@ private:
 public:
     GamePad(std::string btn1, std::string btn2, std::string btn3, cocos2d::Node *s);
 
-    void shootBullet(std::string sname, cocos2d::Node *s);
+    void shootBullet(std::string sname,int bmask, cocos2d::Node *s);
 };
 
 #endif //__GAMEPAD_H__
