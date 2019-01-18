@@ -57,13 +57,15 @@ bool GameScene::init()
     hud->setSceneRef(this);
     hud->initFullHpBar();
 
+    initPauseMenu();
     auto pauseBtn = MenuItemImage::create("pause_btn.png","pause_btn.png",CC_CALLBACK_0(GameScene::runPauseScene, this));
-    auto resumeBtn = MenuItemImage::create("pause_btn.png","pause_btn.png",CC_CALLBACK_0(GameScene::resumeScene, this));
+    //auto resumeBtn = MenuItemImage::create("pause_btn.png","pause_btn.png",CC_CALLBACK_0(GameScene::resumeScene, this));
     pauseBtn->setAnchorPoint(Vec2(0,0));
-    resumeBtn->setAnchorPoint(Vec2(0,0));
-    resumeBtn->setPosition(Vec2(100,100));
+    //resumeBtn->setAnchorPoint(Vec2(0,0));
+    //resumeBtn->setPosition(Vec2(100,100));
+    //resumeBtn->setRotation(0.5f);
 
-    auto menu = Menu::create(pauseBtn, resumeBtn, NULL);
+    auto menu = Menu::create(pauseBtn,  NULL);
     menu->setPosition(Vec2(38,900));
     this->addChild(menu);
 
@@ -78,7 +80,6 @@ bool GameScene::init()
     label->setAnchorPoint(Vec2(0,0));
     label->setPosition(Vec2(visibleSize.width/2, visibleSize.height/2));
     this->addChild(label);
-
 
     this->schedule(schedule_selector(GameScene::runSpawnEnemy), 2.0f);
 
@@ -95,24 +96,61 @@ void GameScene::menuCloseCallback(Ref* pSender)
 #endif
 
     /*To navigate back to native iOS screen(if present) without quitting the application  ,do not use Director::getInstance()->end() and exit(0) as given above,instead trigger a custom event created in RootViewController.mm as below*/
-
     //EventCustom customEndEvent("game_scene_close_event");
     //_eventDispatcher->dispatchEvent(&customEndEvent);
+}
 
+void GameScene::initPauseMenu() {
+    menu_bg = cocos2d::Sprite::create("menu_bg.png");
+    soundBtn = cocos2d::Sprite::create("soundBtn.png");
 
+    resumeBtn = cocos2d::ui::Button::create("resumeBtn.png", "resumeBtn.png");
+    resumeBtn->addTouchEventListener([&](cocos2d::Ref* sender, cocos2d::ui::Widget::TouchEventType type) {
+        menu_bg->setVisible(false);
+        soundBtn->setVisible(false);
+        resumeBtn->setVisible(false);
+
+        menu_bg->pause();
+        soundBtn->pause();
+        resumeBtn->pause();
+        Director::getInstance()->resume();
+    });
+
+    menu_bg->setAnchorPoint(cocos2d::Vec2(0,0));
+    soundBtn->setAnchorPoint(cocos2d::Vec2(0,0));
+    resumeBtn->setAnchorPoint(cocos2d::Vec2(0,0));
+
+    menu_bg->setPosition(cocos2d::Vec2(0,0));
+    resumeBtn->setPosition(cocos2d::Vec2(36,908));
+    soundBtn->setPosition(cocos2d::Vec2(494,51));
+
+    this->addChild(menu_bg,1);
+    this->addChild(resumeBtn,1);
+    this->addChild(soundBtn,1);
+
+    menu_bg->setVisible(false);
+    resumeBtn->setVisible(false);
+    soundBtn->setVisible(false);
+
+    menu_bg->pause();
+    resumeBtn->pause();
+    soundBtn->pause();
 }
 
 void GameScene::runPauseScene() {
-    //auto scene = PauseScene::create();
-    //Director::getInstance()->replaceScene(scene);
-    //this->pause();
-    Scene::getScene()->pause();
+    if(!Director::getInstance()->isPaused()) {
+        Director::getInstance()->pause();
+
+        menu_bg->setVisible(true);
+        soundBtn->setVisible(true);
+        resumeBtn->setVisible(true);
+
+        menu_bg->resume();
+        soundBtn->resume();
+        resumeBtn->resume();
+    }
 }
 
-void GameScene::resumeScene() {
-    //this->resume();
-    Scene::getScene()->resume();
-}
 /*
 void GameScene::update(float dt) {
     Vec2 pos = enemy.getObj()->getPosition();

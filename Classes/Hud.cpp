@@ -1,4 +1,3 @@
-
 #include <2d/CCActionInstant.h>
 #include "Hud.h"
 
@@ -9,11 +8,11 @@ Hud *Hud::getInstance() {
     if(!hud_instance) {
         hud_instance = new Hud;
     }
-
     return hud_instance;
 }
 
-void Hud::reduceHp(bool obj) { //Player -> 1
+void Hud::reduceHp(bool obj) {
+    //Player -> 1
     hp[obj]--;
     if(hp[obj] < 0) {
         //Go to Game Over Scene
@@ -47,6 +46,5 @@ void Hud::initFullHpBar() {
         hp_bars[1][x]->setPosition(cocos2d::Vec2(90+x*60,507));
         sc->addChild(hp_bars[1][x]);
     }
-
 }
 

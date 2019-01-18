@@ -11,6 +11,8 @@ class Hud : public GameObj {
 private:
     std::vector<cocos2d::Sprite* >hp_bars[2];
 
+
+
     static Hud *hud_instance;
     cocos2d::Node* sc;
 
@@ -23,7 +25,7 @@ public:
     void initFullHpBar();
     void setSceneRef(cocos2d::Node *s);
     void reduceHp(bool obj);
-    void showPauseMenu(cocos2d::Node *s);
+
 
 };
 

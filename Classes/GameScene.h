@@ -5,6 +5,7 @@
 #include "GameObj.h"
 #include "Enemy.h"
 #include "Hud.h"
+#include "ui/CocosGUI.h"
 
 
 class GameScene : public cocos2d::Scene
@@ -14,6 +15,9 @@ private:
     int px = 0 ,py = 0;
     int vx = 0, vy = 1;
     cocos2d::Label *label = cocos2d::Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
+    cocos2d::Sprite* menu_bg = nullptr;
+    cocos2d::Sprite* soundBtn = nullptr;
+    cocos2d::ui::Button* resumeBtn = nullptr;
 
 public:
     static cocos2d::Scene* createScene();
@@ -41,7 +45,7 @@ public:
         num |=(1<<(k-1));
     }
 
-    void resumeScene();
+    void initPauseMenu();
 };
 
 
