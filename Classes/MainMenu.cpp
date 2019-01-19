@@ -9,9 +9,6 @@ Scene* MainMenu::createScene()
 {
     auto scene = Scene::create();
 
-    auto layer = MainMenu::create();
-
-    scene->addChild(layer);
     return scene;
 }
 
@@ -30,20 +27,24 @@ bool MainMenu::init()
         return false;
     }
 
-
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
     auto pos=Vec2(visibleSize.width/2, visibleSize.height/4);
     auto pos1=Vec2(pos.x+10, pos.y+10);
 
+    auto bg_main = cocos2d::Sprite::create("bg_main.png");
     auto gTitle = MenuItemImage::create("gtitle.png","gtitle.png");
     auto playBtn = MenuItemImage::create("btn_bg.png","btn_bg.png",CC_CALLBACK_0(MainMenu::runGameScene, this));
     auto optBtn = MenuItemImage::create("btn_bg.png","btn_bg.png",CC_CALLBACK_0(MainMenu::runOptScene, this));
 
     auto menu = Menu::create(gTitle, playBtn, optBtn, NULL);
-    menu->alignItemsVerticallyWithPadding(visibleSize.height / 4);
+    menu->alignItemsVerticallyWithPadding(visibleSize.height / 5);
+
+    bg_main->setPosition(cocos2d::Vec2(visibleSize.width/2, visibleSize.height/2));
+    this->addChild(bg_main);
     this->addChild(menu);
+
 
     return true;
 }
@@ -61,8 +62,6 @@ void MainMenu::menuCloseCallback(Ref* pSender)
 
     //EventCustom customEndEvent("game_scene_close_event");
     //_eventDispatcher->dispatchEvent(&customEndEvent);
-
-
 }
 
 void MainMenu::runOptScene() {

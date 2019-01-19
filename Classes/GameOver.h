@@ -19,6 +19,10 @@ public:
     void Resume();
     void Retry();
     void runMainMenu();
+    void retryScene();
+
+    void playerWon();
+    void enemyWon();
 };
 
 #endif // __GAMEOVER_H__

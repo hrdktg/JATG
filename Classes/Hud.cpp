@@ -1,27 +1,35 @@
 #include <2d/CCActionInstant.h>
 #include "Hud.h"
+#include "GameOver.h"
 
 Hud* Hud::hud_instance = NULL;
 int Hud::hp[] = {5, 5};
 
 Hud *Hud::getInstance() {
+
     if(!hud_instance) {
         hud_instance = new Hud;
     }
     return hud_instance;
+
 }
 
 void Hud::reduceHp(bool obj) {
     //Player -> 1
     hp[obj]--;
-    if(hp[obj] < 0) {
+    if(hp[obj] <= 0) {
+        wonPlayerId = obj;
         //Go to Game Over Scene
-        //Hud::runGameOverScene();
+        auto goversc = GameOver::createScene();
+        cocos2d::Director::getInstance()->replaceScene(goversc);
+
     }
     else {
+
         cocos2d::Sprite* tmp = hp_bars[obj][hp[obj]];
         auto actionRemove = cocos2d::RemoveSelf::create();
         tmp->runAction(cocos2d::Sequence::create(actionRemove, nullptr));
+
     }
 }
 

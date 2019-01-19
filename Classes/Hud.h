@@ -10,14 +10,12 @@
 class Hud : public GameObj {
 private:
     std::vector<cocos2d::Sprite* >hp_bars[2];
-
-
-
     static Hud *hud_instance;
     cocos2d::Node* sc;
 
     static int hp[2]; //Player is 1 and Enemy is 0
 
+    bool wonPlayerId;
     Hud() {};
 
 public:
@@ -26,7 +24,9 @@ public:
     void setSceneRef(cocos2d::Node *s);
     void reduceHp(bool obj);
 
-
-};
+    int getWonPlayerId() {
+        return wonPlayerId;
+    }
+ };
 
 #endif //__HUD_H__

@@ -49,7 +49,8 @@ bool Splash::init()
 }
 
 void Splash::runMainMenu(float dt) {
-    auto MainMenuScene = GameScene::create();
+    auto MainMenuScene = MainMenu::create();
+    //auto MainMenuScene = GameOver::create();
     Director::getInstance()->replaceScene(TransitionFade::create(1, MainMenuScene, Color3B(48,56,44)));
 }
 
