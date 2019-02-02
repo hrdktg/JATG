@@ -23,7 +23,9 @@ public:
     void initFullHpBar();
     void setSceneRef(cocos2d::Node *s);
     void reduceHp(bool obj);
-
+    void setWonPlayerId(bool val) {
+        wonPlayerId = val;
+    }
     int getWonPlayerId() {
         return wonPlayerId;
     }

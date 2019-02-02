@@ -33,7 +33,7 @@ bool GameOver::init()
         return false;
     }
 
-    if(1==Hud::getInstance()->getWonPlayerId()) {
+    if(1 == Hud::getInstance()->getWonPlayerId()) {
         playerWon();
     }
     else {

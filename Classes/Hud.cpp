@@ -1,35 +1,33 @@
 #include <2d/CCActionInstant.h>
 #include "Hud.h"
 #include "GameOver.h"
+#include <string>
 
 Hud* Hud::hud_instance = NULL;
-int Hud::hp[] = {5, 5};
+int Hud::hp[] = {1, 1};
 
 Hud *Hud::getInstance() {
-
     if(!hud_instance) {
         hud_instance = new Hud;
     }
     return hud_instance;
-
 }
 
 void Hud::reduceHp(bool obj) {
     //Player -> 1
     hp[obj]--;
     if(hp[obj] <= 0) {
-        wonPlayerId = obj;
+        //wonPlayerId = !obj;
+        setWonPlayerId(!obj);
+        CCLOG(std::to_string(obj).c_str()," has lost");
         //Go to Game Over Scene
         auto goversc = GameOver::createScene();
         cocos2d::Director::getInstance()->replaceScene(goversc);
-
     }
     else {
-
         cocos2d::Sprite* tmp = hp_bars[obj][hp[obj]];
         auto actionRemove = cocos2d::RemoveSelf::create();
         tmp->runAction(cocos2d::Sequence::create(actionRemove, nullptr));
-
     }
 }
 
@@ -38,8 +36,8 @@ void Hud::setSceneRef(cocos2d::Node* s) {
 }
 
 void Hud::initFullHpBar() {
-    hp[0] = 5;
-    hp[1] = 5;
+    hp[0] = 1;
+    hp[1] = 1;
     hp_bars[0].clear();
     hp_bars[1].clear();
 
@@ -55,4 +53,3 @@ void Hud::initFullHpBar() {
         sc->addChild(hp_bars[1][x]);
     }
 }
-
