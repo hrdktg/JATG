@@ -41,15 +41,11 @@ bool GameScene::init()
     Scene::initWithPhysics();
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile("jatg.plist");
 
-    auto i1 = Sprite::createWithSpriteFrameName("player.png");
-    i1->setAnchorPoint(Vec2(0,0));
-    i1->setPosition(Vec2(0,0));
-
     Background bg_main("bg_main.png", Vec2(0,0), this);
-    ScoreBox score_box("score_box.png", Vec2(1280,860), this);
+    ScoreBox score_box("score.png", Vec2(1280,900), this);
 
-    Player player1("player.png", Vec2(65,350), this);
-    Enemy enemy1("enemy_anim%d.png", 7, Vec2(1610,350), this);
+    Player player1("tank.png", Vec2(0,200), this);
+    Enemy enemy1("enemy_anim%d.png", 7, Vec2(1610,310), this);
 
     GamePad pad("bulletp1.png", "bulletp2.png", "bulletp3.png", this);
 
@@ -101,10 +97,10 @@ void GameScene::menuCloseCallback(Ref* pSender)
 }
 
 void GameScene::initPauseMenu() {
-    menu_bg = cocos2d::Sprite::create("menu_bg.png");
+    menu_bg = cocos2d::Sprite::create("bg_pause_menu.png");
     soundBtn = cocos2d::Sprite::create("soundBtn.png");
 
-    resumeBtn = cocos2d::ui::Button::create("resumeBtn.png", "resumeBtn.png");
+    resumeBtn = cocos2d::ui::Button::create("resume_btn.png", "resume_btn.png");
     resumeBtn->addTouchEventListener([&](cocos2d::Ref* sender, cocos2d::ui::Widget::TouchEventType type) {
         menu_bg->setVisible(false);
         soundBtn->setVisible(false);

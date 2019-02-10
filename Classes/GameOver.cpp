@@ -5,6 +5,7 @@
 #include "Hud.h"
 #include "ui/CocosGUI.h"
 #include "MainMenu.h"
+#include "Background.h"
 
 USING_NS_CC;
 
@@ -33,6 +34,8 @@ bool GameOver::init()
         return false;
     }
 
+    Background bg_main("bg_main.png", Vec2(0,0), this);
+
     if(1 == Hud::getInstance()->getWonPlayerId()) {
         playerWon();
     }
@@ -42,14 +45,28 @@ bool GameOver::init()
 
     auto visibleSize = Director::getInstance()->getVisibleSize();
 
+    auto score_label = cocos2d::Label::createWithTTF("Score", "fonts/ZCOOL.ttf",100);
+    auto score_txt = cocos2d::Label::createWithTTF("99999", "fonts/ZCOOL.ttf",100);
+
+    score_label->setColor(Color3B(172, 147, 147));
+    auto pos = cocos2d::Vec2(visibleSize.width/2, visibleSize.height-350);
+    score_label->setPosition(pos);
+    this->addChild(score_label);
+
+    score_txt->setColor(Color3B(108, 83, 83));
+    pos = cocos2d::Vec2(visibleSize.width/2, visibleSize.height-500);
+    score_txt->setPosition(pos);
+    this->addChild(score_txt);
+
     auto retryBtn = MenuItemImage::create("retry_btn.png","retry_btn.png",CC_CALLBACK_0(GameOver::retryScene, this));
-    auto mainMenuBtn = MenuItemImage::create("main_menu_btn.png", "main_menu_btn.png",CC_CALLBACK_0(GameOver::runMainMenu, this));
+    auto mainMenuBtn = MenuItemImage::create("goto_menu_btn.png", "goto_menu_btn.png",CC_CALLBACK_0(GameOver::runMainMenu, this));
 
     auto menu = Menu::create(retryBtn, mainMenuBtn, NULL);
-    menu->setAnchorPoint(cocos2d::Vec2(0,0));
-    menu->setPosition(cocos2d::Vec2(786,230));
+    menu->setPosition(cocos2d::Vec2(visibleSize.width/2,visibleSize.height/2-200));
     menu->alignItemsHorizontallyWithPadding(visibleSize.width/4);
+
     this->addChild(menu);
+
 
     return true;
 }
@@ -86,8 +103,10 @@ void GameOver::playerWon() {
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    auto label = cocos2d::Label::createWithTTF("You Won", "fonts/Marker Felt.ttf",72);
-    auto pos = cocos2d::Vec2(visibleSize.width/2, visibleSize.height/2);
+    //auto label = cocos2d::Label::createWithTTF("You Won", "fonts/Marker Felt.ttf",72);
+    auto label = cocos2d::Label::createWithTTF("You Won", "fonts/ZCOOL.ttf",120);
+    label->setColor(Color3B(36, 28, 28));
+    auto pos = cocos2d::Vec2(visibleSize.width/2, visibleSize.height-100);
 
     label->setPosition(pos);
     this->addChild(label);
@@ -98,9 +117,11 @@ void GameOver::enemyWon() {
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    auto label = cocos2d::Label::createWithTTF("You Loose", "fonts/Marker Felt.ttf",72);
-    auto pos = cocos2d::Vec2(visibleSize.width/2, visibleSize.height/2);
-    label->setPosition(pos);
+    //auto label = cocos2d::Label::createWithTTF("You Loose", "fonts/Marker Felt.ttf",72);
+    auto label = cocos2d::Label::createWithTTF("You Loose", "fonts/ZCOOL.ttf",120);
+    label->setColor(Color3B(36, 28, 28));
+    auto pos = cocos2d::Vec2(visibleSize.width/2, visibleSize.height-100);
 
+    label->setPosition(pos);
     this->addChild(label);
 }

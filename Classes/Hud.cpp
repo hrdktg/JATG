@@ -4,7 +4,7 @@
 #include <string>
 
 Hud* Hud::hud_instance = NULL;
-int Hud::hp[] = {1, 1};
+int Hud::hp[] = {5, 5};
 
 Hud *Hud::getInstance() {
     if(!hud_instance) {
@@ -36,8 +36,8 @@ void Hud::setSceneRef(cocos2d::Node* s) {
 }
 
 void Hud::initFullHpBar() {
-    hp[0] = 1;
-    hp[1] = 1;
+    hp[0] = 5;
+    hp[1] = 5;
     hp_bars[0].clear();
     hp_bars[1].clear();
 
@@ -49,7 +49,7 @@ void Hud::initFullHpBar() {
 
     for(int x=0;x<hp[1];x++) {
         hp_bars[1].push_back(getFromSheet("heart_player.png"));
-        hp_bars[1][x]->setPosition(cocos2d::Vec2(90+x*60,507));
+        hp_bars[1][x]->setPosition(cocos2d::Vec2(250+x*60,550));
         sc->addChild(hp_bars[1][x]);
     }
 }

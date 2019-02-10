@@ -16,9 +16,9 @@ GamePad::GamePad(std::string btn1, std::string btn2, std::string btn3, cocos2d::
     auto btn_s = cocos2d::ui::Button::create(btn2,btn2);
     auto btn_c = cocos2d::ui::Button::create(btn3,btn3);
 
-    btn_t->setPosition(cocos2d::Vec2(244,227));
-    btn_s->setPosition(cocos2d::Vec2(245,74));
-    btn_c->setPosition(cocos2d::Vec2(72,128));
+    btn_s->setPosition(cocos2d::Vec2(100,70));
+    btn_c->setPosition(cocos2d::Vec2(300,70));
+    btn_t->setPosition(cocos2d::Vec2(1740,70));
 
     btn_t->addTouchEventListener([&,s](cocos2d::Ref* sender, cocos2d::ui::Widget::TouchEventType type) {
        CCLOG("TOUCHING TOUCHING");

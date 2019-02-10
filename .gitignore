@@ -1,0 +1,123 @@
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Windows shortcuts
+*.lnk
+
+# =========================
+# Operating System Files
+# =========================
+
+# OSX
+# =========================
+
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# =========================
+# Cocos2d-x
+# =========================
+
+#cocos2d-x
+cocos2d/
+
+#Ignore files build by Visual Studio
+ipch/
+*.obj
+*.exe
+*.sdf
+*.pdb
+*.aps
+*.vcproj.*.user
+*.vspscc
+*_i.c
+*.i
+*.icf
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.cache
+*.ilk
+*.log
+[Bb]in
+[Dd]ebug*/
+*.sbr
+obj/
+[Rr]elease*/
+_ReSharper*/
+[Tt]est[Rr]esult*
+
+# Ignore files build by ndk and eclipse
+libs/
+bin/
+obj/
+assets/
+gen/
+.settings/
+.classpath
+.project
+.cproject
+
+# Ignore files build by airplay
+build_*_xcode/
+
+# Ignore files build by xcode3
+*.mode*v*
+*.pbxuser
+build/
+.DS_Store
+
+# Ignore files by xcode4
+*.xcscheme
+*.xcworkspacedata
+*.xcuserstate
+xcschememanagement.*
+
+
+*.swp
+*.lock
+profile
+
+# built application files
+*.apk
+*.ap_
+
+# files for the dex VM
+*.dex
+
+# Java class files
+*.class
+
+# Local configuration file (sdk path, etc)
+local.properties

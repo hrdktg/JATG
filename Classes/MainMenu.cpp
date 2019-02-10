@@ -2,6 +2,7 @@
 #include "GameObj.h"
 #include "SimpleAudioEngine.h"
 #include "GameScene.h"
+#include "Background.h"
 
 USING_NS_CC;
 
@@ -34,17 +35,44 @@ bool MainMenu::init()
     auto pos1=Vec2(pos.x+10, pos.y+10);
 
     auto bg_main = cocos2d::Sprite::create("bg_main.png");
-    auto gTitle = MenuItemImage::create("gtitle.png","gtitle.png");
-    auto playBtn = MenuItemImage::create("btn_bg.png","btn_bg.png",CC_CALLBACK_0(MainMenu::runGameScene, this));
-    auto optBtn = MenuItemImage::create("btn_bg.png","btn_bg.png",CC_CALLBACK_0(MainMenu::runOptScene, this));
+    auto bg_curtain_bg = cocos2d::Sprite::create("bg_curtain_bg.png");
+    bg_curtain_bg->setAnchorPoint(Vec2(0,0));
+    bg_curtain_bg->setPosition(Vec2(0,0));
 
-    auto menu = Menu::create(gTitle, playBtn, optBtn, NULL);
-    menu->alignItemsVerticallyWithPadding(visibleSize.height / 5);
+    auto bg_curtain = cocos2d::Sprite::create("bg_curtain.png");
+    bg_curtain->setAnchorPoint(Vec2(0,0));
+    bg_curtain->setPosition(Vec2(0,0));
 
+    auto credit1 = cocos2d::Sprite::create("credit1.png");
+    credit1->setAnchorPoint(Vec2(0,0));
+    credit1->setPosition(Vec2(0,0));
+
+    auto github_icon = cocos2d::Sprite::create("github_icon.png");
+    github_icon->setAnchorPoint(Vec2(0,0));
+    github_icon->setPosition(Vec2(visibleSize.width-github_icon->getContentSize().width-50,50));
+
+
+    auto gTitle = cocos2d::Sprite::create("title.png");
+    gTitle->setAnchorPoint(Vec2(0, 0));
+    gTitle->setPosition(Vec2(visibleSize.width/2-gTitle->getContentSize().width/2, visibleSize.height-gTitle->getContentSize().height));
+
+    auto playBtn = MenuItemImage::create("play_btn.png","play_btn.png",CC_CALLBACK_0(MainMenu::runGameScene, this));
+    auto optBtn = MenuItemImage::create("options_btn.png","options_btn.png",CC_CALLBACK_0(MainMenu::runOptScene, this));
+    auto creditsBtn = MenuItemImage::create("credits_btn.png","credits_btn.png",CC_CALLBACK_0(MainMenu::runGameScene, this));
+
+    auto menu = Menu::create(playBtn, optBtn, creditsBtn, NULL);
+
+    menu->alignItemsVerticallyWithPadding(visibleSize.height / 10);
     bg_main->setPosition(cocos2d::Vec2(visibleSize.width/2, visibleSize.height/2));
-    this->addChild(bg_main);
-    this->addChild(menu);
 
+    this->addChild(bg_curtain_bg);
+    this->addChild(bg_curtain);
+    this->addChild(credit1);
+    this->addChild(github_icon);
+
+    //this->addChild(bg_main);
+    this->addChild(gTitle);
+    this->addChild(menu);
 
     return true;
 }
