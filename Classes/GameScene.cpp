@@ -42,7 +42,8 @@ bool GameScene::init()
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile("jatg.plist");
 
     Background bg_main("bg_main.png", Vec2(0,0), this);
-    ScoreBox score_box("score.png", Vec2(1280,900), this);
+    ScoreBox::getInstance()->init("score.png"); //, Vec2(1280,900), this);
+    ScoreBox::getInstance()->showScore(Vec2(1280, 900), this);
 
     Player player1("tank.png", Vec2(0,200), this);
     Enemy enemy1("enemy_anim%d.png", 7, Vec2(1610,310), this);
@@ -118,7 +119,7 @@ void GameScene::initPauseMenu() {
 
     menu_bg->setPosition(cocos2d::Vec2(0,0));
     resumeBtn->setPosition(cocos2d::Vec2(36,908));
-    soundBtn->setPosition(cocos2d::Vec2(494,51));
+    soundBtn->setPosition(cocos2d::Vec2(300,51));
 
     this->addChild(menu_bg,1);
     this->addChild(resumeBtn,1);

@@ -1,6 +1,7 @@
 #include <2d/CCActionInstant.h>
 #include "Hud.h"
 #include "GameOver.h"
+#include "ScoreBox.h"
 #include <string>
 
 Hud* Hud::hud_instance = NULL;
@@ -15,6 +16,8 @@ Hud *Hud::getInstance() {
 
 void Hud::reduceHp(bool obj) {
     //Player -> 1
+    ScoreBox::getInstance()->updateScore(!obj);
+
     hp[obj]--;
     if(hp[obj] <= 0) {
         //wonPlayerId = !obj;

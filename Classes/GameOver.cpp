@@ -6,6 +6,7 @@
 #include "ui/CocosGUI.h"
 #include "MainMenu.h"
 #include "Background.h"
+#include "ScoreBox.h"
 
 USING_NS_CC;
 
@@ -45,18 +46,20 @@ bool GameOver::init()
 
     auto visibleSize = Director::getInstance()->getVisibleSize();
 
-    auto score_label = cocos2d::Label::createWithTTF("Score", "fonts/ZCOOL.ttf",100);
-    auto score_txt = cocos2d::Label::createWithTTF("99999", "fonts/ZCOOL.ttf",100);
-
-    score_label->setColor(Color3B(172, 147, 147));
+//    auto score_label = cocos2d::Label::createWithTTF("Score", "fonts/ZCOOL.ttf",100);
+//    auto score_txt = cocos2d::Label::createWithTTF("99999", "fonts/ZCOOL.ttf",100);
+//
+//    score_label->setColor(Color3B(172, 147, 147));
     auto pos = cocos2d::Vec2(visibleSize.width/2, visibleSize.height-350);
-    score_label->setPosition(pos);
-    this->addChild(score_label);
+//    score_label->setPosition(pos);
+//    this->addChild(score_label);
 
-    score_txt->setColor(Color3B(108, 83, 83));
+//    score_txt->setColor(Color3B(108, 83, 83));
     pos = cocos2d::Vec2(visibleSize.width/2, visibleSize.height-500);
-    score_txt->setPosition(pos);
-    this->addChild(score_txt);
+//    score_txt->setPosition(pos);
+//    this->addChild(score_txt);
+    //ScoreBox::getInstance()->init("score.png"); //, Vec2(1280,900), this);
+    ScoreBox::getInstance()->showScore(pos, this, 1);
 
     auto retryBtn = MenuItemImage::create("retry_btn.png","retry_btn.png",CC_CALLBACK_0(GameOver::retryScene, this));
     auto mainMenuBtn = MenuItemImage::create("goto_menu_btn.png", "goto_menu_btn.png",CC_CALLBACK_0(GameOver::runMainMenu, this));
